@@ -12,6 +12,7 @@ from requests.exceptions import RequestException
 import time
 
 
+# 1. 获取一个网页
 def get_one_page(url):
     try:
         headers = {
@@ -25,6 +26,7 @@ def get_one_page(url):
         return None
 
 
+# 2. 解析
 def parse_one_page(html):
     pattern = re.compile(
         '<dd>.*?board-index.*?>(.*?)</i>.*?data-src="(.*?)".*?name.*?a.*?>(.*?)</a>.*?star.*?>(.*?)</p>.*?releasetime.*?>(.*?)</p>.*?integer.*?>(.*?)</i>.*?fraction.*?>(.*?)</i>.*?</dd>',
@@ -41,11 +43,13 @@ def parse_one_page(html):
         }
 
 
+# 3. 输出保存
 def write_to_file(content):
     with open('MaoYanTop100.txt', 'a', encoding='utf-8') as f:
         f.write(json.dumps(content, ensure_ascii=False))
 
 
+# 4. 整理上述三步，输出结果
 def main(offset):
     url = 'https://maoyan.com/board/4?offset=' + str(offset)
     html = get_one_page(url)
@@ -54,6 +58,7 @@ def main(offset):
         write_to_file(item)
 
 
+# 5. 爬取多页
 if __name__ == '__main__':
     for i in range(10):
         main(offset=10 * i)

@@ -6,4 +6,14 @@
 # @Time    : 2019/3/2 12:07
 
 
-print(1)
+def fun():
+    for i in range(20):
+        x = yield i
+        print('good', x)
+
+
+if __name__ == '__main__':
+    a = fun()
+    a.__next__()
+    x = a.send(5)
+    print(x)
